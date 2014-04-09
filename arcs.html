@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="graphs.css">
+    </head>
+    <body>
+        <script>
+                var r = 300;
+                 var data = [10, 20, 30, 40, 50, 60, 70, 80];
+               
+
+                //ordinal because it can contain anything not just numbers
+                var color = d3.scale.ordinal()
+                            .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+                // var color = d3.scale.ordinal()
+                //     .range(["red","blue","green"]);
+
+
+                //d3.csv("mydata.csv",function (data) {
+                
+                var wrapper = d3.select("body").append("svg").attr("width",1500).attr("height",1500);
+                
+                var group = wrapper.append("g").attr("transform","translate(300,300)");
+                
+                
+                // circumference which gives radians for the circle 
+                var p = Math.PI * 2; 
+                
+                // degress measure in radians
+                
+                // arc path generator
+                var arc = d3.svg.arc()
+                    .innerRadius(200)
+                    //.innerRadius(0)
+                    .outerRadius(r);
+
+
+                // pie layout provides returns startAngle,endAngle and its value for each data element
+                var pie = d3.layout.pie()
+                        .value(function (d){
+                            return d.age;
+                        });
+
+
+                //d3.csv("mydata.csv",function (data){
+
+                     var c = d3.scale.linear().domain(d3.extent(data)).range([0,1]);
+
+
+                    // to configure arc according to data values returned by pie layout
+                    var arcs = group.selectAll(".arc")
+                        .data(pie(data))
+                        .enter()
+                        .append("g").attr("class","arc");
+
+                    //pie(data) returns objects with its properties and values 
+                    // to create a path out of these objects. 
+
+                    arcs.append("path")
+                        .attr("d",arc)
+                        .attr("fill",function (d){
+                            return color(d.data);
+                        });
+
+                        // done basically to position the data at the centre of the arc
+                    arcs.append("text")
+                        .attr("transform",function (d){ return "translate(" + arc.centroid(d) + ")";})
+                        .text(function(d){ return d.data });
+
+                        
+                //})
+                
+            
+            
+            
+        </script>
+    </body>
+</html>     

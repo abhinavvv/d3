@@ -1,0 +1,59 @@
+// var dataset = [ 5, 10, 15, 20, 25 ];
+            // var dataset = [ 25, 7, 5, 26, 11, 8, 25, 14, 23, 19,
+            //     14, 11, 22, 29, 11, 13, 12, 17, 18, 10,
+            //     24, 18, 25, 9, 3 ];
+            var dataset = [];                        //Initialize empty array
+            for (var i = 0; i < 25; i++) {           //Loop 25 times
+                var newNumber = Math.random() * 30;  //New random number (0-30)
+                dataset.push(newNumber);             //Add new number to array
+            }
+            
+            //d3.select("body").append("p").text("Hello world with d3! ");
+            //d3.select("body").selectAll("p").data(dataset).enter().append("p").text("New Paragrah!!");
+            // d3.select("body").selectAll("p").data(dataset).enter().append("p").text(function(d){ 
+            //     return "I want to see this number " + d;
+            // }).style("color",function(d){
+            //     if (d > 15)
+            //         return "green";
+            //     else
+            //         return "red";
+            // });
+            // d3.select("body").selectAll("div").data(dataset).enter()
+            //     .append("div").attr("class", "bar").style("height",function(d){
+            //         return (d*5) +"px";
+
+            //     }).style("margin-right","2px");
+            var svg = d3.select("body").append("svg").attr("width",500).attr("height",1000);
+            svg.selectAll("rect").data(dataset).enter()
+                .append("rect").attr("x", function(d,i){
+                    return i * (500 / dataset.length);
+                }).attr("width",500/dataset.length - 1)
+                .attr("y",function(d){
+                    return (d*10)/dataset.length;
+                }).attr("height",function(d){
+                    return d;
+
+                }).attr("fill",function(d,i) {
+                    return "rgb(0, 0, " + ((i+10) * 10) + ")";
+                });
+                svg.selectAll("text").data(dataset).enter().append("text").text(function(d){
+                    return d;
+                });
+
+            // var svg = d3.select("body").append("svg").attr("width",500).attr("height",50);
+            // svg.selectAll("circle")
+            //     .data(dataset)
+            //     .enter()
+            //     .append("circle")
+            //     .attr("cx", function(d, i) {
+            //         return (i * 50) + 25;
+            //     }).attr("cy", 25)
+            //     .attr("r", function(d) {
+            //             return d;
+            //     }).attr("fill", "red")
+            //     .attr("stroke", "green")
+            //     .attr("stroke-width", function(d) {
+            //         return d/2;
+            //     });
+
+            // Your beautiful D3 code will go here
